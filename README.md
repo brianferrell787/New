@@ -65,3 +65,48 @@ Y = \beta_0 + \beta_{\text{Cluster}} \cdot \text{Cluster ID} + \beta_{\text{Scor
 
 ## Best Practice: Full Model
 Include **Cluster ID**, **Combined Score**, and **Interaction Term** for the most complete and interpretable results.
+
+
+
+
+
+# Combined Score Construction
+
+The **Combined Score** is created in three steps:
+
+1. **Scaling (\(\phi\))**:
+   Apply a scaling function (\(\phi\)), such as Min-Max Scaling, to normalize the anomaly scores:
+   \[
+   \text{Scaled LOF} = \phi(\text{LOF}), \quad \text{Scaled Mahalanobis} = \phi(\text{Mahalanobis})
+   \]
+
+2. **Summation**:
+   Combine the scaled scores by adding them:
+   \[
+   \text{Combined Score (Raw)} = \phi(\text{LOF}) + \phi(\text{Mahalanobis})
+   \]
+
+3. **Log Transformation**:
+   Reduce skewness by applying a natural log transformation:
+   \[
+   \text{Final Combined Score} = \ln(\text{Combined Score (Raw)} + 1)
+   \]
+
+---
+
+## Final Formula
+\[
+\text{Final Combined Score} = \ln\left(\phi(\text{LOF}) + \phi(\text{Mahalanobis}) + 1\right)
+\]
+
+---
+
+## Python Example
+```python
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+
+scaler = MinMaxScaler()
+scaled_lof = scaler.fit_transform(panel_df[['anomaly_score_lof']]).flatten()
+scaled_mahalanobis = scaler.fit_transform(panel_df[['anomaly_score_md_mcd']]).flatten()
+panel_df['combined_score'] = np.log1p(scaled_lof + scaled_mahalanobis)
