@@ -1,5 +1,37 @@
 # New
 
+import numpy as np
+from sklearn.preprocessing import QuantileTransformer
+
+def compute_surrounding_years_percentile(year, data, window=5):
+    # Determine the start and end of the window
+    half_window = (window - 1) // 2
+    min_year, max_year = data['Year'].min(), data['Year'].max()
+    
+    start_year = max(min_year, year - half_window)
+    end_year = min(max_year, year + half_window)
+    
+    # Adjust the window to ensure it always includes `window` years
+    while (end_year - start_year + 1) < window:
+        if start_year > min_year:
+            start_year -= 1
+        elif end_year < max_year:
+            end_year += 1
+    
+    # Filter data for the surrounding years
+    surrounding_data = data[(data['Year'] >= start_year) & (data['Year'] <= end_year)]
+    
+    # Apply QuantileTransformer
+    transformer = QuantileTransformer(output_distribution='uniform')
+    transformed = transformer.fit_transform(surrounding_data[['anomaly_score_lof']])
+    return transformed.flatten()
+
+# Apply the function to calculate multi-year percentiles
+panel_df['lof_multi_year'] = panel_df.apply(
+    lambda row: compute_surrounding_years_percentile(row['Year'], panel_df),
+    axis=1
+)
+
 # Comparing Regression Specifications: Cluster ID, Combined Score, and Interaction Term
 
 ## 1. Full Model: All Components Included
