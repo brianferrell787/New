@@ -1,5 +1,46 @@
 # New
 
+def compute_fixed_percentiles(data, year, window=5):
+    # Define the 3-5 year window
+    half_window = (window - 1) // 2
+    min_year, max_year = data['Year'].min(), data['Year'].max()
+    
+    start_year = max(min_year, year - half_window)
+    end_year = min(max_year, year + half_window)
+    
+    # Adjust window to ensure it covers 'window' years if possible
+    while (end_year - start_year + 1) < window:
+        if start_year > min_year:
+            start_year -= 1
+        elif end_year < max_year:
+            end_year += 1
+
+    # Filter data within the window
+    surrounding_data = data[(data['Year'] >= start_year) & (data['Year'] <= end_year)]
+    
+    # Quantile Transformation
+    transformer = QuantileTransformer(output_distribution='uniform')
+    surrounding_scores = surrounding_data[['anomaly_score_lof']].values
+    transformed = transformer.fit_transform(surrounding_scores)
+    
+    # Map the transformed scores back to their original rows for the target year
+    target_year_data = data[data['Year'] == year].copy()
+    target_year_data['percentile'] = transformer.transform(
+        target_year_data[['anomaly_score_lof']]
+    )
+    return target_year_data[['Year', 'anomaly_score_lof', 'percentile']]
+
+# Create an empty DataFrame to store results
+percentile_results = []
+
+# Iterate over each year and calculate percentiles
+for year in panel_df['Year'].unique():
+    year_percentiles = compute_fixed_percentiles(panel_df, year, window=5)
+    percentile_results.append(year_percentiles)
+
+# Concatenate all yearly results into a single DataFrame
+percentile_results_df = pd.concat(percentile_results, ignore_index=True)
+
 import numpy as np
 from sklearn.preprocessing import QuantileTransformer
 
