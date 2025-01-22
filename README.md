@@ -1,61 +1,68 @@
-# New
-
+# l
+New
 # Regression Specifications
 
+## Definitions:
+- **Cluster**: A categorical variable representing clusters from KMeans.
+- **Local Anomaly Score (\( \ln(\text{LAS}) \))**: The natural logarithm of the local anomaly score.
+- **Global Anomaly Score (\( \ln(\text{GAS}) \))**: The natural logarithm of the global anomaly score.
+
+---
+
 - **Baseline Model: Cluster Only**
-  \[
+  $$
   \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \epsilon
-  \]
+  $$
 
 - **Local Anomaly Score Only**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Local Anomaly Score} + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \ln(\text{LAS}) + \epsilon
+  $$
 
 - **Global Anomaly Score Only**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Global Anomaly Score} + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \ln(\text{GAS}) + \epsilon
+  $$
 
 - **Cluster and Local Anomaly Score**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \epsilon
+  $$
 
 - **Cluster and Global Anomaly Score**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Global Anomaly Score} + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{GAS}) + \epsilon
+  $$
 
 - **Cluster, Local Anomaly Score, and Global Anomaly Score**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \beta_3 \ln(\text{GAS}) + \epsilon
+  $$
 
 - **Cluster and Interaction with Local Anomaly Score**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 (\text{Cluster} \times \text{Local Anomaly Score}) + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \beta_3 (\text{Cluster} \times \ln(\text{LAS})) + \epsilon
+  $$
 
 - **Cluster and Interaction with Global Anomaly Score**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Global Anomaly Score} + \beta_3 (\text{Cluster} \times \text{Global Anomaly Score}) + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{GAS}) + \beta_3 (\text{Cluster} \times \ln(\text{GAS})) + \epsilon
+  $$
 
 - **Cluster, Local Anomaly Score, Global Anomaly Score, and Interaction (Local × Global)**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \beta_3 \ln(\text{GAS}) + \beta_4 (\ln(\text{LAS}) \times \ln(\text{GAS})) + \epsilon
+  $$
 
 - **Cluster, Local Anomaly Score, Global Anomaly Score, and All Pairwise Interactions**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Cluster} \times \text{Local Anomaly Score}) + \beta_5 (\text{Cluster} \times \text{Global Anomaly Score}) + \beta_6 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \beta_3 \ln(\text{GAS}) + \beta_4 (\text{Cluster} \times \ln(\text{LAS})) + \beta_5 (\text{Cluster} \times \ln(\text{GAS})) + \beta_6 (\ln(\text{LAS}) \times \ln(\text{GAS})) + \epsilon
+  $$
 
 - **Cluster, Local Anomaly Score, Global Anomaly Score, and All Interactions (Including Three-Way Interaction)**
-  \[
-  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Cluster} \times \text{Local Anomaly Score}) + \beta_5 (\text{Cluster} \times \text{Global Anomaly Score}) + \beta_6 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \beta_7 (\text{Cluster} \times \text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
-  \]
+  $$
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \ln(\text{LAS}) + \beta_3 \ln(\text{GAS}) + \beta_4 (\text{Cluster} \times \ln(\text{LAS})) + \beta_5 (\text{Cluster} \times \ln(\text{GAS})) + \beta_6 (\ln(\text{LAS}) \times \ln(\text{GAS})) + \beta_7 (\text{Cluster} \times \ln(\text{LAS}) \times \ln(\text{GAS})) + \epsilon
+
 
 def compute_fixed_percentiles(data, year, window=5):
     # Define the 3-5 year window
