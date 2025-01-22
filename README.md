@@ -1,5 +1,62 @@
 # New
 
+# Regression Specifications
+
+- **Baseline Model: Cluster Only**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \epsilon
+  \]
+
+- **Local Anomaly Score Only**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Local Anomaly Score} + \epsilon
+  \]
+
+- **Global Anomaly Score Only**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Global Anomaly Score} + \epsilon
+  \]
+
+- **Cluster and Local Anomaly Score**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \epsilon
+  \]
+
+- **Cluster and Global Anomaly Score**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Global Anomaly Score} + \epsilon
+  \]
+
+- **Cluster, Local Anomaly Score, and Global Anomaly Score**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \epsilon
+  \]
+
+- **Cluster and Interaction with Local Anomaly Score**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 (\text{Cluster} \times \text{Local Anomaly Score}) + \epsilon
+  \]
+
+- **Cluster and Interaction with Global Anomaly Score**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Global Anomaly Score} + \beta_3 (\text{Cluster} \times \text{Global Anomaly Score}) + \epsilon
+  \]
+
+- **Cluster, Local Anomaly Score, Global Anomaly Score, and Interaction (Local × Global)**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
+  \]
+
+- **Cluster, Local Anomaly Score, Global Anomaly Score, and All Pairwise Interactions**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Cluster} \times \text{Local Anomaly Score}) + \beta_5 (\text{Cluster} \times \text{Global Anomaly Score}) + \beta_6 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
+  \]
+
+- **Cluster, Local Anomaly Score, Global Anomaly Score, and All Interactions (Including Three-Way Interaction)**
+  \[
+  \text{Outcome} = \beta_0 + \beta_1 \text{Cluster} + \beta_2 \text{Local Anomaly Score} + \beta_3 \text{Global Anomaly Score} + \beta_4 (\text{Cluster} \times \text{Local Anomaly Score}) + \beta_5 (\text{Cluster} \times \text{Global Anomaly Score}) + \beta_6 (\text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \beta_7 (\text{Cluster} \times \text{Local Anomaly Score} \times \text{Global Anomaly Score}) + \epsilon
+  \]
+
 def compute_fixed_percentiles(data, year, window=5):
     # Define the 3-5 year window
     half_window = (window - 1) // 2
